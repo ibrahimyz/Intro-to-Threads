@@ -32,8 +32,16 @@ int main() {
     pthread_t myThread, yourThread;
     int num = 5; // create an int variable for arg of thread
     
-    pthread_create(&myThread, NULL, myTurn, (void*)&num); // pass the address of num as arg
-    pthread_create(&yourThread, NULL, yourTurn, NULL); // there is no arg
+    if (pthread_create(&myThread, NULL, myTurn, (void*)&num)) { // pass the address of num as arg
+        fprintf(stderr, "Error creting myThread\n");
+        return 1; // Exit on error
+    }
+    
+    if (pthread_create(&yourThread, NULL, yourTurn, NULL)) { // there is no arg
+        fprintf(stderr, "Error creting yourThread\n");
+        return 1; // Exit on error
+    }
+        
     
     int* myResult; // pointer to store the result from myTurn
     int* yourResult; // pointer to store the result from yourTurn
