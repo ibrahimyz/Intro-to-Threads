@@ -25,28 +25,27 @@ void* yourTurn(void * arg) {
         printf("Your Turn i=%d\n", i);
         (*iptr)++;
     }
-    return iptr;
-    
+    return iptr; 
 }
 
 int main() {
     pthread_t myThread, yourThread;
     int num = 5; // create an int variable for arg of thread
     
-    pthread_create(&myThread, NULL, myTurn, (void*)&num); // pass the address of num
-    pthread_create(&yourThread, NULL, yourTurn, NULL);    
+    pthread_create(&myThread, NULL, myTurn, (void*)&num); // pass the address of num as arg
+    pthread_create(&yourThread, NULL, yourTurn, NULL); // there is no arg
     
     int* myResult; // pointer to store the result from myTurn
     int* yourResult; // pointer to store the result from yourTurn
     
-    // wait until the thread is done before we exit.
+    // wait until all threads are finished before exiting
     pthread_join(myThread, (void**)&myResult);
     pthread_join(yourThread, (void**)&yourResult);
     
     printf("mR=%d\n",*myResult);
     printf("yR=%d\n",*yourResult);
     
-    free(yourResult);
+    free(yourResult); // free dynamically allocated memory
 
     return 0;
 }
