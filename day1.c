@@ -59,9 +59,9 @@ int main() {
         return 2; // Exit on error
     }
     
-    // Check if myResult is not NULL before dereferencing
+    // Check if myResult is not NULL before dereferencing. (Not dynamically allocated)
     if (myResult != NULL)
-        printf("mR=%d\n",*myResult);
+        printf("mR=%d\n",*myResult); 
     else
         fprintf(stderr, "myTurn returned NULL\n");
 
