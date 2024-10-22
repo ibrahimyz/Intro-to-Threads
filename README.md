@@ -1,2 +1,2 @@
 # Intro-to-Threads
-I'm learning threads and I'm coding their example.
+I'm learning threads (pthreads) in C langugae and I'm coding their example.
