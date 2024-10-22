@@ -44,7 +44,6 @@ int main() {
         fprintf(stderr, "Error creating yourThread\n");
         return 1; // Exit on error
     }
-        
     
     int* myResult; // pointer to store the result from myTurn
     int* yourResult; // pointer to store the result from yourTurn
