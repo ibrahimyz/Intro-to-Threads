@@ -34,22 +34,22 @@ void* sumColumn(void* args) {
 
    // Calculate to sum of each column
    for (int i = 0; i < SIZE; ++i){
-      thArgs->sum += *((thArgs->arr + i * SIZE) + colIndex); // DEĞİŞECEK
+      thArgs->sum += *(thArgs->arr + i * SIZE); // remember: args->arr = arr+i
    }
   
    // Print column index and its sum value. (We can return this values instead printing.)
    printf("Column: %d - Sum: %d\n", colIndex, thArgs->sum);
    
-   free(thArgs); // Free allocated memory before exiting
+   free(thArgs); // Free the allocated memory before exiting
    pthread_exit(0);
 }
 
 int main() {
    pthread_t t[SIZE]; // Thread array
 
-   int* arr = (int*) malloc(SIZE*SIZE*sizeof(int)); // Allocate memory for the array
+   int* arr = (int*) malloc(SIZE*SIZE*sizeof(int)); // Allocate the memory for the 2D array
 
-   // Check memory allocation failure for arr
+   // Check the memory allocation failure for arr
    if (arr == NULL) {
       perror("Memory allocation failed!");
       return EXIT_FAILURE;
@@ -57,7 +57,7 @@ int main() {
    
    fillArray(arr); // Call fillArray function
    
-    for (int i = 0; i < SIZE; ++i) {
+   for (int i = 0; i < SIZE; ++i) {
       ThreadArg* args = (ThreadArg*)malloc(sizeof(ThreadArg)); // Allocate unique structure for each thread
 
       // Check memory allocation failure for args
@@ -67,28 +67,28 @@ int main() {
           return EXIT_FAILURE;
       }
 
-      // Assing values for structure
-      args->arr = arr; // Arr pointer hold the address
+      // Assign values for the structure
+      args->arr = arr+i; // Arr pointer holds the address of each column's first element
       args->colIndex = i;
       args->sum = 0;     
 
       // Create all threads to calculate the sum of each column
       if (pthread_create(t + i, NULL, &sumColumn, (void*)args)) {
           perror("Thread creation failed!");
-          free(arr);   // Free memory
-          return EXIT_FAILURE; // Create failure
+          free(arr);   // Free the memory
+          return EXIT_FAILURE; // pthread_create failure
       }
-    }
+   }
 
    // Wait for all threads to finish
    for (int i = 0; i < SIZE; ++i){
       if(pthread_join(t[i], NULL)) {
           perror("Join failed!");
-          free(arr);   // Free memory
-          return EXIT_FAILURE; // Join failure
+          free(arr);   // Free the memory
+          return EXIT_FAILURE; // pthread_join failure
       }
    }
    
-   free(arr); // Free arr memory before main return
+   free(arr); // Free the arr memory before main return
    return 0;
 }
