@@ -68,7 +68,7 @@ int main() {
       }
 
       // Assing values for structure
-      args->arr = arr + i; // Arr pointer hold the address of each column's first element
+      args->arr = arr; // Arr pointer hold the address
       args->colIndex = i;
       args->sum = 0;     
 
